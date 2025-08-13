@@ -48,9 +48,11 @@
     <h1>MAKE EARTH COOL AGAIN</h1>
     <div class="temperature">Current average world temperature: <span id="temp">25.502</span>°C</div>
     <button id="coolButton">Cool Down</button>
-
+    
+    <div class="footer-text">this is the explanation</div>
+    
     <script>
-      let temp = 25.502;
+      let temp = 15.5020°;
       const tempDisplay = document.getElementById('temp');
       const coolButton = document.getElementById('coolButton');
 
@@ -59,14 +61,14 @@
       }
 
       coolButton.addEventListener('click', () => {
-        temp -= 0.01;
+        temp -= 0.001;
         updateDisplay();
       });
 
       // Random warming intervals
       setInterval(() => {
         if (Math.random() < 0.3) { // 30% chance every second
-          temp += 0.01;
+          temp += 0.0001;
           updateDisplay();
         }
       }, 1000);
