@@ -50,7 +50,7 @@
     <button id="coolButton">Cool Down</button>
     
     <script>
-      let temp = 15.5020°;
+      let temp = 15.5020;
       const tempDisplay = document.getElementById('temp');
       const coolButton = document.getElementById('coolButton');
 
@@ -59,7 +59,7 @@
       }
 
       coolButton.addEventListener('click', () => {
-        temp -= 0.001;
+        temp -= 0.0001;
         updateDisplay();
       });
 
