@@ -58,6 +58,7 @@
         box-shadow: 0 4px 15px rgba(0,0,0,0.35);
         transition: transform 0.1s;
         margin-bottom: 4rem; /* space before footer */
+        touch-action: manipulation; /* prevent double-tap zoom on mobile */
       }
       button:hover { transform: scale(1.05); }
 
@@ -113,7 +114,7 @@
 
       function updateDisplay() { tempDisplay.textContent = temp.toFixed(3); }
 
-      coolButton.addEventListener('click', () => { temp -= 0.001; updateDisplay(); });
+      coolButton.addEventListener('click', () => { temp -= 0.0001; updateDisplay(); });
 
       setInterval(() => {
         if (Math.random() < 0.3) { temp += 0.001; updateDisplay(); }
