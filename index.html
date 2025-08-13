@@ -5,23 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Make Earth Cool Again</title>
     <style>
-      :root{
-        /* Desktop (landscape) background */
-        --bg-desktop: url('earth.jpg');
-        /* Mobile/portrait background (add a portrait asset named earth-portrait.jpg for best results) */
-        --bg-mobile: url('earth-portrait.jpg');
-      }
+      /* Reset & base */
       html, body { height: 100%; margin: 0; }
       body {
         font-family: system-ui, sans-serif;
         color: #fff;
         text-align: center;
-        background: var(--bg-desktop) center / cover no-repeat fixed;
+        background:#000; /* avoid white edges while image loads */
+        overflow-x: hidden; /* no horizontal scroll that could show white */
       }
 
-      /* Page layout that keeps footer at the bottom without overlapping */
+      /* Background as a fixed <img> so it behaves on mobile */
+      .bg {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100svh; /* small viewport height avoids iOS bars gap */
+        object-fit: cover;
+        object-position: center;
+        z-index: -1; /* behind content */
+      }
+
       .page {
-        min-height: 100dvh; /* use dynamic viewport for mobile toolbars */
+        min-height: 100svh;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -65,9 +71,8 @@
         opacity: 0.92;
       }
 
-      /* MOBILE: smaller fonts, higher title, portrait background */
+      /* MOBILE: smaller fonts, higher title */
       @media (max-width: 520px) {
-        body { background: var(--bg-mobile) center top / cover no-repeat fixed; }
         .page {
           justify-content: flex-start;
           padding-top: 9vh; /* push title higher */
@@ -78,14 +83,15 @@
         button { font-size: 1rem; padding: 0.9rem 1.4rem; margin-bottom: 5rem; }
         .footer-text { font-size: 0.68rem; }
       }
-
-      /* Extra guard for very tall/narrow screens */
-      @media (max-aspect-ratio: 3/4) {
-        body { background-position: center top; }
-      }
     </style>
   </head>
   <body>
+    <!-- Responsive background: use portrait asset on phones if available -->
+    <picture>
+      <source media="(max-width: 520px), (orientation: portrait)" srcset="earth-portrait.jpg">
+      <img src="earth.jpg" alt="Earth" class="bg" />
+    </picture>
+
     <div class="page">
       <header>
         <h1>MAKE EARTH COOL AGAIN</h1>
@@ -110,7 +116,7 @@
       coolButton.addEventListener('click', () => { temp -= 0.001; updateDisplay(); });
 
       setInterval(() => {
-        if (Math.random() < 0.3) { temp += 0.0001; updateDisplay(); }
+        if (Math.random() < 0.3) { temp += 0.001; updateDisplay(); }
       }, 1000);
 
       updateDisplay();
