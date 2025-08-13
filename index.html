@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Simple Page</title>
+    <style>
+      :root {
+        --accent: #ffffff;
+        --text: #ffffff;
+        --box-bg: rgba(255, 255, 255, 0.1);
+        --box-border: rgba(255, 255, 255, 0.35);
+        --shadow: 0 10px 30px rgba(0,0,0,0.25);
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body {
+        /* Replace with your image URL or file path */
+        --bg: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fearth%2F&psig=AOvVaw0blsR36kx_DqMsX9YypVuI&ust=1755205502990000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCIirwJbYiI8DFQAAAAAdAAAAABAE');
+        background: var(--bg) center / cover no-repeat fixed;
+        display: grid;
+        place-items: center;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+      }
+      .overlay { /* optional darken layer for contrast */
+        position: fixed; inset: 0; pointer-events: none;
+        background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+      }
+      .content {
+        position: relative; /* above overlay */
+        text-align: center;
+        padding: 2rem;
+      }
+      h1 {
+        margin: 0 0 0.5rem 0;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      }
+      p.tagline {
+        margin: 0 0 1.25rem 0;
+        opacity: 0.95;
+        max-width: 60ch;
+        margin-inline: auto;
+        line-height: 1.5;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      }
+      .box {
+        display: inline-block;
+        padding: 1rem 1.25rem;
+        border-radius: 16px;
+        background: var(--box-bg);
+        border: 1px solid var(--box-border);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        box-shadow: var(--shadow);
+        min-width: 260px;
+        max-width: min(90vw, 560px);
+        text-align: left;
+      }
+      .box h2 { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
+      .box p { margin: 0; line-height: 1.45; }
+      .footer {
+        position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+        font-size: 0.85rem; opacity: 0.8;
+      }
+      /* Small screens */
+      @media (max-width: 520px) {
+        h1 { font-size: 1.6rem; }
+        p.tagline { font-size: 0.95rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="overlay" aria-hidden="true"></div>
+
+    <main class="content">
+      <h1>hello, world 👋</h1>
+      <p class="tagline">This is a super simple page with a full-screen background image, some text, and a little translucent box.</p>
+
+      <div class="box">
+        <h2>My Box</h2>
+        <p>Put anything you want in here — links, contact info, a short bio, or a call to action.</p>
+      </div>
+    </main>
+
+    <div class="footer">© 2025 • Your Name</div>
+  </body>
+</html>
