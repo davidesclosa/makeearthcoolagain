@@ -39,34 +39,50 @@
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         transition: transform 0.1s;
       }
-      button:hover {
-        transform: scale(1.05);
+      button:hover { transform: scale(1.05); }
+
+      /* footer/explanation styling */
+      .footer-text {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(90vw, 960px);
+        color: #fff;
+        font-size: 0.7rem;
+        font-variant: small-caps;
+        line-height: 1.35;
+        text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+        opacity: 0.9;
       }
     </style>
   </head>
   <body>
     <h1>MAKE EARTH COOL AGAIN</h1>
     <div class="temperature">Expected world temperature next month: <span id="temp">25.502</span>°C</div>
-    <button id="coolButton">Cool Down</button>
-    
+    <button id="coolButton" aria-label="Cool the planet by 0.001°C">Cool Down</button>
+
     <script>
-      let temp = 15.5020;
+      // Start from whatever is currently shown in the DOM to avoid mismatches
       const tempDisplay = document.getElementById('temp');
       const coolButton = document.getElementById('coolButton');
+      let temp = parseFloat(tempDisplay.textContent);
+      if (Number.isNaN(temp)) temp = 25.502; // fallback just in case
 
       function updateDisplay() {
         tempDisplay.textContent = temp.toFixed(3);
       }
 
       coolButton.addEventListener('click', () => {
-        temp -= 0.0001;
+        temp -= 0.001; // your chosen step
         updateDisplay();
       });
 
-      // Random warming intervals
+      // Random warming intervals (0.0001). With toFixed(3), this becomes visible
+      // roughly every 10 successful warm events (i.e., about 0.001 total).
       setInterval(() => {
         if (Math.random() < 0.3) { // 30% chance every second
-          temp += 0.0001;
+          temp += 0.001;
           updateDisplay();
         }
       }, 1000);
