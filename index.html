@@ -5,91 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Make Earth Cool Again</title>
     <style>
-      html, body {
-        height: 100%;
-        margin: 0;
+      :root{
+        /* Desktop (landscape) background */
+        --bg-desktop: url('earth.jpg');
+        /* Mobile/portrait background (add a portrait asset named earth-portrait.jpg for best results) */
+        --bg-mobile: url('earth-portrait.jpg');
+      }
+      html, body { height: 100%; margin: 0; }
+      body {
         font-family: system-ui, sans-serif;
-        background: url('earth2.jpg') center / cover no-repeat fixed;
+        color: #fff;
+        text-align: center;
+        background: var(--bg-desktop) center / cover no-repeat fixed;
+      }
+
+      /* Page layout that keeps footer at the bottom without overlapping */
+      .page {
+        min-height: 100dvh; /* use dynamic viewport for mobile toolbars */
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        color: white;
-        text-align: center;
+        justify-content: center;
+        padding: 6vh 16px calc(3vh + env(safe-area-inset-bottom));
+        gap: 1rem;
       }
+
       h1 {
         font-size: 3rem;
-        margin-bottom: 1rem;
+        margin: 0 0 0.5rem 0;
         text-shadow: 0 2px 10px rgba(0,0,0,0.6);
       }
       .temperature {
         font-size: 1.5rem;
-        margin-bottom: 1.5rem;
         text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        margin: 0 0 1.25rem 0;
       }
       button {
         padding: 1rem 2rem;
         font-size: 1.2rem;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        background: rgba(255, 255, 255, 0.85);
-        color: #333;
-        font-weight: bold;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        background: rgba(255,255,255,0.88);
+        color: #222;
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.35);
         transition: transform 0.1s;
+        margin-bottom: 4rem; /* space before footer */
       }
       button:hover { transform: scale(1.05); }
 
-      /* footer/explanation styling */
       .footer-text {
-        position: fixed;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: min(90vw, 960px);
-        color: #fff;
+        width: min(92vw, 960px);
+        margin: 0 auto;
         font-size: 0.7rem;
         font-variant: small-caps;
-        line-height: 1.35;
+        line-height: 1.4;
         text-shadow: 0 1px 6px rgba(0,0,0,0.5);
-        opacity: 0.9;
+        opacity: 0.92;
+      }
+
+      /* MOBILE: smaller fonts, higher title, portrait background */
+      @media (max-width: 520px) {
+        body { background: var(--bg-mobile) center top / cover no-repeat fixed; }
+        .page {
+          justify-content: flex-start;
+          padding-top: 9vh; /* push title higher */
+          gap: 0.75rem;
+        }
+        h1 { font-size: 2.1rem; letter-spacing: 0.5px; }
+        .temperature { font-size: 1.15rem; }
+        button { font-size: 1rem; padding: 0.9rem 1.4rem; margin-bottom: 5rem; }
+        .footer-text { font-size: 0.68rem; }
+      }
+
+      /* Extra guard for very tall/narrow screens */
+      @media (max-aspect-ratio: 3/4) {
+        body { background-position: center top; }
       }
     </style>
   </head>
   <body>
-    <h1>MAKE EARTH COOL AGAIN</h1>
-    <div class="temperature">Expected world temperature next month: <span id="temp">25.502</span>°C</div>
-    <button id="coolButton" aria-label="Cool the planet by 0.001°C">Cool Down</button>
+    <div class="page">
+      <header>
+        <h1>MAKE EARTH COOL AGAIN</h1>
+      </header>
+
+      <main>
+        <div class="temperature">Expected world temperature next month: <span id="temp">25.502</span>°C</div>
+        <button id="coolButton" aria-label="Cool the planet by 0.001°C">Cool Down</button>
+      </main>
+
+      <footer class="footer-text">How does it work? Each click you make initiates a background process that completes CAPTCHA verification tests. These verifications are then used to register automated accounts across a variety of online platforms. Leveraging these accounts, we subtly influence consumer purchasing behavior toward products offered by our third-party sponsors. In return, 99% of the generated revenue is reinvested into climate cooling initiatives, including: (1) financially compensating coal plants to temporarily halt operations by purchasing their projected profits, (2) dispersing aerosol particles in the stratosphere to modestly reduce incoming solar radiation, and (3) strategically supporting legislative decisions that promote the adoption of nuclear energy.</footer>
+    </div>
 
     <script>
-      // Start from whatever is currently shown in the DOM to avoid mismatches
       const tempDisplay = document.getElementById('temp');
       const coolButton = document.getElementById('coolButton');
       let temp = parseFloat(tempDisplay.textContent);
-      if (Number.isNaN(temp)) temp = 25.502; // fallback just in case
+      if (Number.isNaN(temp)) temp = 25.502;
 
-      function updateDisplay() {
-        tempDisplay.textContent = temp.toFixed(3);
-      }
+      function updateDisplay() { tempDisplay.textContent = temp.toFixed(3); }
 
-      coolButton.addEventListener('click', () => {
-        temp -= 0.0001; // your chosen step
-        updateDisplay();
-      });
+      coolButton.addEventListener('click', () => { temp -= 0.001; updateDisplay(); });
 
-      // Random warming intervals (0.0001). With toFixed(3), this becomes visible
-      // roughly every 10 successful warm events (i.e., about 0.001 total).
       setInterval(() => {
-        if (Math.random() < 0.3) { // 30% chance every second
-          temp += 0.001;
-          updateDisplay();
-        }
+        if (Math.random() < 0.3) { temp += 0.0001; updateDisplay(); }
       }, 1000);
 
       updateDisplay();
     </script>
-
-    <div class="footer-text">How does it work? Each click you make initiates a background process that completes CAPTCHA verification tests. These verifications are then used to register automated accounts across a variety of online platforms. Leveraging these accounts, we subtly influence consumer purchasing behavior toward products offered by our third-party sponsors. In return, 99% of the generated revenue is reinvested into climate cooling initiatives, including: (1) financially compensating coal plants to temporarily halt operations by purchasing their projected profits, (2) dispersing aerosol particles in the stratosphere to modestly reduce incoming solar radiation, and (3) strategically supporting legislative decisions that promote the adoption of nuclear energy by bribing key political figures.</div>
   </body>
 </html>
